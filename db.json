@@ -17,6 +17,16 @@
       "category": "식비",
       "price": 15000,
       "memo": "점심 식사"
+    },
+    {
+      "userId": {
+        "date": "2025-04-11",
+        "type": "지출",
+        "price": 1234,
+        "category": "이자",
+        "memo": "1234"
+      },
+      "id": "QP4aIKM"
     }
   ],
   "category": [
