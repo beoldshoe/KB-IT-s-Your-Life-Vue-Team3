@@ -1,11 +1,9 @@
 {
-  "budget": [
+  "transaction": [
     {
       "id": "1",
       "userId": "1",
-      "year": "2025",
-      "month": "04",
-      "day": "07",
+      "date": "2025-04-07",
       "type": "지출",
       "category": "식비",
       "price": 4500,
@@ -14,9 +12,7 @@
     {
       "id": "2",
       "userId": "1",
-      "year": "2025",
-      "month": "04",
-      "day": "07",
+      "date": "2025-04-07",
       "type": "지출",
       "category": "식비",
       "price": 15000,
