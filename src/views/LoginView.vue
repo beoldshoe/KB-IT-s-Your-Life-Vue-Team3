@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 
 export default {
   name: 'LoginView',
@@ -49,27 +49,15 @@ export default {
     const email = ref('');
     const password = ref('');
     const router = useRouter();
+    const userStore = useUserStore();
 
     const onSubmit = async () => {
-      try {
-        const res = await axios.get('http://localhost:3000/user', {
-          params: {
-            email: email.value,
-            password: password.value,
-          },
-        });
-
-        if (res.data.length === 1) {
-          const user = res.data[0];
-          localStorage.setItem('user', JSON.stringify(user));
-          alert(`👋 ${user.name}님, 환영합니다!`);
-          router.push('/daily');
-        } else {
-          alert('❌ 이메일 또는 비밀번호가 일치하지 않습니다.');
-        }
-      } catch (error) {
-        console.error('로그인 오류:', error);
-        alert('⚠️ 서버 오류가 발생했습니다.');
+      const success = await userStore.login(email.value, password.value);
+      if (success) {
+        alert(`👋 ${userStore.currentUser.name}님, 환영합니다!`);
+        router.push('/daily');
+      } else {
+        alert('❌ 이메일 또는 비밀번호가 일치하지 않습니다.');
       }
     };
 
@@ -137,13 +125,13 @@ button {
   color: white;
   border: none;
   border-radius: 8px;
-  background-color: #669df6;
+  background-color: #2d539e;
   padding: 3px;
   margin-top: 1rem;
 }
 button:hover {
   color: #969696;
-  background-color: #2d539e;
+  background-color: #1e3e7a;
 }
 h1 {
   font-weight: 600;
