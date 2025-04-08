@@ -42,7 +42,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import { useUserStore } from '@/stores/user';
 
 export default {
   name: 'UserView',
@@ -59,48 +59,34 @@ export default {
     const newEmail = ref('');
     const password = ref('');
 
+    const userStore = useUserStore();
+
     const userId = JSON.parse(localStorage.getItem('user'))?.id;
 
-    onMounted(async () => {
-      if (userId) {
-        const res = await axios.get(`http://localhost:3000/user/${userId}`);
-        originalEmail.value = res.data.email;
-        // newEmail.value = res.data.email;
-        // password.value = res.data.password;
+    onMounted(() => {
+      let user = userStore.currentUser;
+
+      if (!user) {
+        const localUser = localStorage.getItem('user');
+        if (localUser) {
+          user = JSON.parse(localUser);
+          userStore.currentUser = user;
+        }
+      }
+
+      if (user) {
+        originalEmail.value = user.email;
       }
     });
 
     const onUpdateEmail = async () => {
-      try {
-        await axios.patch(`http://localhost:3000/user/${userId}`, {
-          email: newEmail.value,
-        });
-        updateLocalStorage('email', newEmail.value);
-        originalEmail.value = newEmail.value;
-        alert('이메일이 수정 성공!');
-      } catch (err) {
-        console.error('이메일 수정 오류:', err);
-        alert('이메일 수정 실패');
-      }
+      await userStore.updateEmail(newEmail.value);
+      alert('이메일이 수정되었습니다!');
     };
 
     const onUpdatePassword = async () => {
-      try {
-        await axios.patch(`http://localhost:3000/user/${userId}`, {
-          password: password.value,
-        });
-        updateLocalStorage('password', password.value);
-        alert('비밀번호가 수정 성공!');
-      } catch (err) {
-        console.error('비밀번호 수정 오류:', err);
-        alert('비밀번호 수정 실패');
-      }
-    };
-
-    const updateLocalStorage = (key, value) => {
-      const user = JSON.parse(localStorage.getItem('user'));
-      user[key] = value;
-      localStorage.setItem('user', JSON.stringify(user));
+      await userStore.updatePassword(password.value);
+      alert('비밀번호가 수정되었습니다!');
     };
 
     return {
