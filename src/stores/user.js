@@ -26,14 +26,14 @@ export const useUserStore = defineStore('user', {
     },
 
     logout() {
-      console.log('🚪 로그아웃');
+      console.log('로그아웃');
       this.currentUser = null;
       localStorage.removeItem('user');
     },
 
     async updateEmail(newEmail) {
       if (!this.currentUser) {
-        console.warn('⚠️ updateEmail 호출 시 currentUser 없음');
+        console.warn('updateEmail 호출 시 currentUser 없음');
         return;
       }
 
