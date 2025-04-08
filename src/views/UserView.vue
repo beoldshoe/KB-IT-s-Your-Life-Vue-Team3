@@ -81,6 +81,7 @@ export default {
 
     const onUpdateEmail = async () => {
       await userStore.updateEmail(newEmail.value);
+      originalEmail.value = newEmail.value;
       alert('이메일이 수정되었습니다!');
     };
 
