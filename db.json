@@ -1,0 +1,72 @@
+{
+  "budget": [
+    {
+      "id": "1",
+      "userId": "1",
+      "year": "2025",
+      "month": "04",
+      "day": "07",
+      "type": "지출",
+      "category": "식비",
+      "price": 4500,
+      "memo": "스타벅스"
+    },
+    {
+      "id": "2",
+      "userId": "1",
+      "year": "2025",
+      "month": "04",
+      "day": "07",
+      "type": "지출",
+      "category": "식비",
+      "price": 15000,
+      "memo": "점심 식사"
+    }
+  ],
+  "category": [
+    {
+      "id": "1",
+      "name": "월급"
+    },
+    {
+      "id": "2",
+      "name": "용돈"
+    },
+    {
+      "id": "3",
+      "name": "이자"
+    },
+    {
+      "id": "4",
+      "name": "식비"
+    },
+    {
+      "id": "5",
+      "name": "교통비"
+    },
+    {
+      "id": "6",
+      "name": "생활용품"
+    },
+    {
+      "id": "7",
+      "name": "공과금"
+    }
+  ],
+  "user": [
+    {
+      "id": "1",
+      "name": "김OO",
+      "email": "abc123@example.com",
+      "password": "1234",
+      "image": ""
+    },
+    {
+      "id": "2",
+      "name": "이OO",
+      "email": "123abc@example.com",
+      "password": "5678",
+      "image": ""
+    }
+  ]
+}
