@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/daily',
       name: 'daily',
-      component: () => import('../views/LoginView.vue'),
+      component: () => import('../views/DailyView.vue'),
     },
     {
       path: '/month',
