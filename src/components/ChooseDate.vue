@@ -22,7 +22,6 @@ const chooseDateStore = useFinancialStore();
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
 }
 .cssButton {
   display: flex;
@@ -32,9 +31,8 @@ const chooseDateStore = useFinancialStore();
   justify-content: center;
   align-items: center;
   text-align: center;
+  background-color: transparent;
   padding-top: 1px;
-  color: #0a0a23;
-  background-color: white;
   border: none;
   cursor: pointer;
 }

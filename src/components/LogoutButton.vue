@@ -6,13 +6,19 @@
 
 <script setup>
 import { useFinancialStore } from '@/stores/financial.js';
+import { useRouter } from 'vue-router';
+
+const router = useRouter(); // ✅ 이거 추가
 
 const store = useFinancialStore();
 
 const handleLogout = () => {
-  store.logout();
-  alert('로그아웃 되었습니다!');
-  router.push('/home');
+  const confirmed = confirm('로그아웃 하시겠습니까?');
+  if (confirmed) {
+    store.logout();
+    alert('로그아웃 되었습니다!');
+    router.push('/');
+  }
 };
 </script>
 
@@ -29,8 +35,8 @@ const handleLogout = () => {
 }
 
 .logout-icon {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
 }
 

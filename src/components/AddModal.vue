@@ -30,7 +30,7 @@
                   v-model="formData.type"
                   class="form-check-input"
                 />
-                <label for="income" class="form-check-label">수입</label>
+                <label for="income" class="form-check-label"> 수입</label>
                 <input
                   type="radio"
                   id="expense"
@@ -38,7 +38,7 @@
                   v-model="formData.type"
                   class="form-check-input"
                 />
-                <label for="expense" class="form-check-label">지출</label>
+                <label for="expense" class="form-check-label"> 지출</label>
               </div>
             </div>
 
@@ -209,6 +209,7 @@ if (props.mode === 0) {
   background-color: #e7f1fe;
   max-width: 600px;
   width: 100%;
+  border-radius: 3%;
 }
 
 .modal-content {
@@ -225,5 +226,9 @@ if (props.mode === 0) {
 .action-buttons {
   display: flex;
   gap: 10px;
+}
+
+.form-check-label {
+  margin-right: 2%;
 }
 </style>

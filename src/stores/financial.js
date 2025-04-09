@@ -5,12 +5,12 @@ import * as api from '@/api/transaction.js'; // getCategory 호출을 위해 api
 
 export const useFinancialStore = defineStore('financial', {
   state: () => ({
+    currentUser: JSON.parse(localStorage.getItem('user')) || null,
     categories: [],
     transaction: [],
     selectedCategory: '',
     user: null,
     budgetList: [],
-    currentUser: null,
     transactionList: [],
     year: 2025,
     months: 4,
