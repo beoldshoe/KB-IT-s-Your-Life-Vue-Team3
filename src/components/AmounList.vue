@@ -4,7 +4,7 @@
     <div class="header">
       <div class="date_info">
         <span class="day">{{ day }}</span>
-        <span class="date">{{ year }} / {{ month }}</span>
+        <span class="amount_date">{{ year }} / {{ month }}</span>
       </div>
       <div class="spacer"></div>
       <div class="amount_info">
@@ -71,7 +71,7 @@ const [year, month, day] = props.date.split('-');
   color: #e74c3c;
 }
 
-.date {
+.amount_date {
   font-size: 0.8rem;
 }
 hr {

@@ -14,6 +14,8 @@ export const useFinancialStore = defineStore('financial', {
     transactionList: [],
     year: 2025,
     months: 4,
+    totalTransactionCount: 0,
+    allTransactions: [],
   }),
 
   getters: {
@@ -38,14 +40,14 @@ export const useFinancialStore = defineStore('financial', {
     },
     // 일자별 총 지출
     dayTotalExpense: (state) => (date) => {
-      return state.transactionList
+      return state.allTransactions
         .filter((item) => item.date === date)
         .filter((item) => item.type === '지출')
         .reduce((acc, cur) => acc + cur.price, 0);
     },
     // 일자별 총 수입
     dayTotalIncome: (state) => (date) => {
-      return state.transactionList
+      return state.allTransactions
         .filter((item) => item.date === date)
         .filter((item) => item.type === '수입')
         .reduce((acc, cur) => acc + cur.price, 0);
@@ -153,7 +155,7 @@ export const useFinancialStore = defineStore('financial', {
         date_lte: endDate,
       });
       console.log('api 응답:', res);
-      this.budgetList = res || [];
+      this.budgetList = res.data || [];
     },
 
     async login(email, password) {
@@ -230,7 +232,7 @@ export const useFinancialStore = defineStore('financial', {
       }
     },
     //특정 달 가계부 조회(날짜 내림차순)
-    async fetchTransactions(userId, startDate, endDate) {
+    async fetchTransactions(userId, startDate, endDate, page) {
       console.log('특정 달 가계부 조회');
       console.log('요청 날짜:', startDate, '~', endDate);
       const res = await api.getTransaction('', {
@@ -239,12 +241,21 @@ export const useFinancialStore = defineStore('financial', {
         date_lte: endDate,
         _sort: 'date',
         _order: 'DESC',
+        _page: page,
+        _limit: 10,
       });
-      console.log('api 응답:', res);
-      this.transactionList = res || [];
+      console.log('api 응답:', res.data);
+      this.totalTransactionCount = parseInt(res.headers['x-total-count']);
+      this.transactionList = res.data || [];
     },
     // 특정 카테고리 가계부 조회
-    async fetchCategoryTransactions(userId, startDate, endDate, category) {
+    async fetchCategoryTransactions(
+      userId,
+      startDate,
+      endDate,
+      category,
+      page
+    ) {
       console.log('특정 카테고리 가계부 조회');
       console.log('요청 날짜:', startDate, '~', endDate);
       const res = await api.getTransaction('', {
@@ -254,9 +265,34 @@ export const useFinancialStore = defineStore('financial', {
         date_lte: endDate,
         _sort: 'date',
         _order: 'DESC',
+        _page: page,
+        _limit: 10,
       });
-      console.log('api 응답:', res);
-      this.transactionList = res || [];
+      console.log('api 응답:', res.data);
+      this.totalTransactionCount = parseInt(res.headers['x-total-count']);
+      this.transactionList = res.data || [];
+    },
+    // 계산용 가계부 조회
+    async fetchAllTransactions(userId, startDate, endDate) {
+      const res = await api.getTransaction('', {
+        userId,
+        date_gte: startDate,
+        date_lte: endDate,
+        _sort: 'date',
+        _order: 'DESC',
+      });
+      this.allTransactions = res.data || [];
+    },
+    async fetchAllCategoryTransactions(userId, startDate, endDate, category) {
+      const res = await api.getTransaction('', {
+        userId,
+        category,
+        date_gte: startDate,
+        date_lte: endDate,
+        _sort: 'date',
+        _order: 'DESC',
+      });
+      this.allTransactions = res.data || [];
     },
 
     beforeButton() {
