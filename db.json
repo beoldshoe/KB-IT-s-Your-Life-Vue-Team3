@@ -1,32 +1,31 @@
 {
   "transaction": [
     {
-      "id": "1",
       "userId": "1",
       "date": "2025-04-07",
       "type": "지출",
-      "category": "식비",
-      "price": 4500,
-      "memo": "스타벅스"
+      "category": "교통비",
+      "price": 200000,
+      "memo": "점심 식사",
+      "id": "2"
     },
     {
-      "id": "2",
       "userId": "1",
       "date": "2025-04-07",
-      "type": "지출",
-      "category": "식비",
+      "type": "수입",
+      "category": "교통비",
       "price": 15000,
-      "memo": "점심 식사"
+      "memo": "점심 식사",
+      "id": "3"
     },
     {
-      "userId": {
-        "date": "2025-04-11",
-        "type": "지출",
-        "price": 1234,
-        "category": "이자",
-        "memo": "1234"
-      },
-      "id": "QP4aIKM"
+      "userId": "1",
+      "date": "2025-04-07",
+      "type": "지출",
+      "category": "교통비",
+      "price": 1234134,
+      "memo": "점심 식사",
+      "id": "23"
     }
   ],
   "category": [

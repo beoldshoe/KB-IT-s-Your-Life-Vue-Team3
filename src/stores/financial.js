@@ -1,7 +1,7 @@
 // /src/stores/financialStore.js
 import { defineStore } from 'pinia';
 import * as api from '@/api/transaction.js'; // getCategory 호출을 위해 api 모듈 임포트
-import { getTransaction } from '@/api/transaction';  //추가
+import { useCategoryStore } from '@/stores/financial.js';
 
 export const useFinancialStore = defineStore('financial', {
   state: () => ({
@@ -12,6 +12,8 @@ export const useFinancialStore = defineStore('financial', {
     budgetList: [],
     currentUser: null,
     transactionList: [],
+    year: 2025,
+    months: 4,
   }),
 
   getters: {
@@ -51,6 +53,9 @@ export const useFinancialStore = defineStore('financial', {
     // 특정 일자 가계부
     dayTransactions: (state) => (date) => {
       return state.transactionList.filter((item) => item.date === date);
+    },
+    currentDate(cal) {
+      return `${cal.year}-${cal.months}`;
     },
   },
 
@@ -94,22 +99,20 @@ export const useFinancialStore = defineStore('financial', {
 
     async removeTrans(id) {
       try {
-        // id를 포함한 URL 구성
         const url = `/${id}`;
-
-        // postTransaction 함수 호출
         const data = await api.removeTransaction(url, '');
 
-        // 데이터가 정상적으로 전달되면 처리
         console.log(data);
+        alert('삭제 완료되었습니다!');
+        window.location.reload(); // ✅ 또는 await store.fetchTransactions();
       } catch (e) {
         console.error('[ERROR] Failed to post transaction', e);
+        alert('삭제 실패하였습니다!');
       }
     },
 
     async editTrans(id, userId, date, type, category, price, memo) {
       try {
-        // id를 포함한 URL 구성
         const url = `/${id}`;
         const budget = {
           userId,
@@ -120,20 +123,22 @@ export const useFinancialStore = defineStore('financial', {
           memo,
         };
 
-        // postTransaction 함수 호출
         const data = await api.putTransaction(url, budget);
 
-        // 데이터가 정상적으로 전달되면 처리
         console.log(data);
+        alert('수정 완료되었습니다!');
+        window.location.reload(); // ✅ 또는 await store.fetchTransactions();
       } catch (e) {
         console.error('[ERROR] Failed to post transaction', e);
+        alert('수정 실패하였습니다.');
       }
     },
 
     async startCategories() {
       try {
-        const res = await axios.get('http://localhost:3000/category');
-        this.categories = res.data;
+        // const res = await axios.get('http://localhost:3000/category');
+        const res = await api.getCategory('');
+        this.categories = res;
         console.log('categories불러오기', this.categories);
       } catch (err) {
         console.error('카테고리 가져오기 실패:', err);
@@ -154,7 +159,7 @@ export const useFinancialStore = defineStore('financial', {
     async login(email, password) {
       console.log('로그인 요청 →', { email, password });
 
-      const data = await api.getUser('', { email, password });
+      const data = await getUser('', { email, password });
 
       console.log('로그인 응답 ←', data);
 
@@ -186,7 +191,7 @@ export const useFinancialStore = defineStore('financial', {
         newEmail,
       });
 
-      const updated = await api.putUser(`${this.currentUser.id}`, {
+      const updated = await putUser(`${this.currentUser.id}`, {
         ...this.currentUser,
         email: newEmail,
       });
@@ -211,7 +216,7 @@ export const useFinancialStore = defineStore('financial', {
         newPassword,
       });
 
-      const updated = await api.putUser(`${this.currentUser.id}`, {
+      const updated = await putUser(`${this.currentUser.id}`, {
         ...this.currentUser,
         password: newPassword,
       });
@@ -252,6 +257,25 @@ export const useFinancialStore = defineStore('financial', {
       });
       console.log('api 응답:', res);
       this.transactionList = res || [];
+    },
+
+    beforeButton() {
+      if (this.months === 1) {
+        this.months = 12;
+        this.year -= 1;
+      } else {
+        this.months -= 1;
+      }
+      console.log('test코드, beforButton이 눌렸습니다');
+    },
+    nextButton() {
+      if (this.months === 12) {
+        this.months = 1;
+        this.year += 1;
+      } else {
+        this.months += 1;
+      }
+      console.log('test코드, nextButton이 눌렸습니다');
     },
 
     // async fetchTrans() {

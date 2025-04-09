@@ -1,19 +1,15 @@
 <template>
   <div>
-    <!-- 모달 오버레이 -->
     <div class="modal-overlay">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <!-- 모달 제목 -->
           <div class="modal-header">
             <h5 class="modal-title">
               {{ mode === 0 ? '수정 모달' : '추가 모달' }}
             </h5>
           </div>
 
-          <!-- 모달 본문 -->
           <div class="modal-body">
-            <!-- 날짜 선택 -->
             <div class="modal-content">
               <label for="date" class="form-label">날짜 선택</label>
               <input
@@ -24,7 +20,6 @@
               />
             </div>
 
-            <!-- 수입/지출 선택 -->
             <div class="modal-content">
               <label class="form-label">수입/지출</label>
               <div>
@@ -47,7 +42,6 @@
               </div>
             </div>
 
-            <!-- 금액 입력 -->
             <div class="modal-content">
               <label for="price" class="form-label">금액</label>
               <input
@@ -58,8 +52,6 @@
                 placeholder="금액을 입력하세요"
               />
             </div>
-
-            <!-- 카테고리 드롭다운 -->
             <div class="modal-content">
               <label for="category" class="form-label">카테고리</label>
               <select
@@ -67,10 +59,7 @@
                 class="form-control"
                 v-model="formData.category"
               >
-                <!-- 기본 선택 항목 -->
                 <option value="" disabled selected>선택</option>
-
-                <!-- 카테고리 옵션들 -->
                 <option
                   v-for="category in store.categories"
                   :key="category.id"
@@ -81,7 +70,6 @@
               </select>
             </div>
 
-            <!-- 메모 입력 -->
             <div class="modal-content">
               <label for="memo" class="form-label">메모</label>
               <textarea
@@ -93,14 +81,12 @@
             </div>
           </div>
 
-          <!-- 모달 바닥 버튼 -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" @click="closeModal">
               닫기
             </button>
 
-            <!-- 수정 버튼과 추가 버튼을 조건에 맞게 표시 -->
-            <div v-if="mode === 0">
+            <div v-if="mode === 0" class="action-buttons">
               <button type="button" class="btn btn-primary" @click="editItem">
                 수정
               </button>
@@ -126,12 +112,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useFinancialStore } from '../stores/financial.js'; // Pinia store import
+import { useFinancialStore } from '../stores/financial.js';
+import { useUserStore } from '../stores/user.js';
 
-const store = useFinancialStore(); // Pinia store 인스턴스
-
+const store = useFinancialStore();
+const userStore = useUserStore();
+const emit = defineEmits(['close']);
 const formData = ref({
-  userId: 1,
+  userId: null,
   date: '',
   type: '',
   price: '',
@@ -139,36 +127,47 @@ const formData = ref({
   memo: '',
 });
 
-const mode = ref(1); // 기본 모드는 추가 모드 (1)
+const mode = ref(1);
 
 const closeModal = () => {
   emit('close');
 };
 
 const confirmAction = async () => {
-  // postTrans 메서드를 호출하여 데이터를 전송
-  await store.postTrans(formData.value); // formData를 전달하여 전송
+  await store.postTrans(formData.value);
+  closeModal();
 };
 
 const editItem = async () => {
-  await store.editTrans('QP4aIKM', formData.value);
+  await store.editTrans(
+    props.itemData.id,
+    formData.value.userId,
+    formData.value.date,
+    formData.value.type,
+    formData.value.category,
+    formData.value.price,
+    formData.value.memo
+  );
+  closeModal();
 };
 
 const deleteItem = async () => {
-  await store.removeTrans('rqWNAnd');
+  await store.removeTrans(formData.value.id);
+  closeModal();
 };
 
-// 카테고리 로딩
 onMounted(async () => {
-  await store.fetchCategories('target', ''); // fetchCategories 호출 후 카테고리 로드
-  console.log(store.categories); // categories 배열 출력
+  await store.fetchCategories('target', '');
+
+  if (!formData.value.userId) {
+    formData.value.userId = userStore.currentUser?.id;
+  }
 });
 
-// 부모로부터 props로 데이터를 받는 부분
 const props = defineProps({
   mode: {
     type: Number,
-    default: 1, // 기본값은 추가 모드 (1)
+    default: 1,
   },
   itemData: {
     type: Object,
@@ -176,10 +175,14 @@ const props = defineProps({
   },
 });
 
-// edit 모드일 때 초기화
 if (props.mode === 0) {
   formData.value = { ...props.itemData };
-  mode.value = 0; // 수정 모드로 설정
+
+  if (!formData.value.userId) {
+    formData.value.userId = userStore.currentUser?.id;
+  }
+
+  mode.value = 0;
 }
 </script>
 
@@ -190,14 +193,14 @@ if (props.mode === 0) {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal-dialog {
-  max-width: 600px; /* 모달 너비 조정 */
+  max-width: 600px;
   width: 100%;
 }
 
@@ -207,8 +210,14 @@ if (props.mode === 0) {
   border-radius: 8px;
 }
 
-.modal-buttons {
+.modal-footer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
 }
 </style>
