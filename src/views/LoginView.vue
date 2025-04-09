@@ -27,7 +27,7 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user';
+import { useFinancialStore } from '@/stores/financial';
 
 export default {
   name: 'LoginView',
@@ -49,7 +49,7 @@ export default {
     const email = ref('');
     const password = ref('');
     const router = useRouter();
-    const userStore = useUserStore();
+    const userStore = useFinancialStore();
 
     const onSubmit = async () => {
       const success = await userStore.login(email.value, password.value);

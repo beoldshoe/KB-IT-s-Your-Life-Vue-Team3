@@ -42,7 +42,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import { useUserStore } from '@/stores/user';
+import { useFinancialStore } from '@/stores/financial';
 
 export default {
   name: 'UserView',
@@ -59,7 +59,7 @@ export default {
     const newEmail = ref('');
     const password = ref('');
 
-    const userStore = useUserStore();
+    const userStore = useFinancialStore();
 
     const userId = JSON.parse(localStorage.getItem('user'))?.id;
 
