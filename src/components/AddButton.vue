@@ -1,27 +1,35 @@
 <template>
-  <button class="add-button" @click="handleClick">
+  <button class="add-button" @click="openModal">
     <img src="@/assets/add-button.png" alt="Add" class="add-icon" />
   </button>
+  <AddModal
+    v-if="showModal"
+    :mode="1"
+    :itemData="item"
+    @close="showModal = false"
+  />
 </template>
 
 <script setup>
-const emit = defineEmits(['click']);
+import { ref } from 'vue';
+import AddModal from './AddModal.vue';
+const showModal = ref(false);
 
-const handleClick = () => {
-  emit('click');
+const openModal = () => {
+  showModal.value = true;
 };
 </script>
 
 <style scoped>
 .add-button {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 40px;
+  right: 40px;
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .add-icon {
@@ -31,6 +39,7 @@ const handleClick = () => {
 }
 
 .add-button:hover {
-  transform: scale(1.1);
+  transition: 0.3s;
+  transform: scale(1.4);
 }
 </style>

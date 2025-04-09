@@ -113,10 +113,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useFinancialStore } from '../stores/financial.js';
-// import { useUserStore } from '../stores/user.js';
 
 const store = useFinancialStore();
-const userStore = useUserStore();
 const emit = defineEmits(['close']);
 const formData = ref({
   userId: null,
@@ -134,7 +132,14 @@ const closeModal = () => {
 };
 
 const confirmAction = async () => {
-  await store.postTrans(formData.value);
+  await store.postTrans(
+    formData.value.userId,
+    formData.value.date,
+    formData.value.type,
+    formData.value.category,
+    formData.value.price,
+    formData.value.memo
+  );
   closeModal();
 };
 
@@ -160,7 +165,7 @@ onMounted(async () => {
   await store.fetchCategories('target', '');
 
   if (!formData.value.userId) {
-    formData.value.userId = userStore.currentUser?.id;
+    formData.value.userId = store.currentUser?.id;
   }
 });
 
@@ -179,7 +184,7 @@ if (props.mode === 0) {
   formData.value = { ...props.itemData };
 
   if (!formData.value.userId) {
-    formData.value.userId = userStore.currentUser?.id;
+    formData.value.userId = store.currentUser?.id;
   }
 
   mode.value = 0;
@@ -197,15 +202,16 @@ if (props.mode === 0) {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
 .modal-dialog {
+  background-color: #e7f1fe;
   max-width: 600px;
   width: 100%;
 }
 
 .modal-content {
-  background-color: #e7f1fe;
   padding: 20px;
   border-radius: 8px;
 }
