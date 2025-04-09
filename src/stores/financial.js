@@ -1,7 +1,7 @@
 // /src/stores/financialStore.js
 import { defineStore } from 'pinia';
 import * as api from '@/api/transaction.js'; // getCategory 호출을 위해 api 모듈 임포트
-import { useCategoryStore } from '@/stores/financial.js';
+// import { useCategoryStore } from '@/stores/financial.js';
 
 export const useFinancialStore = defineStore('financial', {
   state: () => ({
@@ -147,7 +147,7 @@ export const useFinancialStore = defineStore('financial', {
 
     async fetchBudgets(userId, startDate, endDate) {
       console.log('요청 날짜:', startDate, '~', endDate);
-      const res = await getTransaction('', {
+      const res = await api.getTransaction('', {
         userId,
         date_gte: startDate,
         date_lte: endDate,
@@ -159,7 +159,7 @@ export const useFinancialStore = defineStore('financial', {
     async login(email, password) {
       console.log('로그인 요청 →', { email, password });
 
-      const data = await getUser('', { email, password });
+      const data = await api.getUser('', { email, password });
 
       console.log('로그인 응답 ←', data);
 
@@ -191,7 +191,7 @@ export const useFinancialStore = defineStore('financial', {
         newEmail,
       });
 
-      const updated = await putUser(`${this.currentUser.id}`, {
+      const updated = await api.putUser(`${this.currentUser.id}`, {
         ...this.currentUser,
         email: newEmail,
       });
@@ -216,7 +216,7 @@ export const useFinancialStore = defineStore('financial', {
         newPassword,
       });
 
-      const updated = await putUser(`${this.currentUser.id}`, {
+      const updated = await api.putUser(`${this.currentUser.id}`, {
         ...this.currentUser,
         password: newPassword,
       });
