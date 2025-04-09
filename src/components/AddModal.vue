@@ -113,7 +113,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useFinancialStore } from '../stores/financial.js';
-import { useUserStore } from '../stores/user.js';
+// import { useUserStore } from '../stores/user.js';
 
 const store = useFinancialStore();
 const userStore = useUserStore();

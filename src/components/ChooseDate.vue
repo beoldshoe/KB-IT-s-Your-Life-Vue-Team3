@@ -8,8 +8,8 @@
   </div>
 </template>
 <script setup>
-import { useChooseDateStore } from '@/stores/yj.js';
-const chooseDateStore = useChooseDateStore();
+import { useFinancialStore } from '@/stores/financial';
+const chooseDateStore = useFinancialStore();
 </script>
 
 <style>
