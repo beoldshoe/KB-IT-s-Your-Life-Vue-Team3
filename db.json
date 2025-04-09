@@ -4,7 +4,7 @@
       "userId": "1",
       "date": "2025-04-07",
       "type": "지출",
-      "category": "교통비",
+      "category": "월급",
       "price": 200000,
       "memo": "점심 식사",
       "id": "2"
@@ -12,7 +12,7 @@
     {
       "userId": "1",
       "date": "2025-04-07",
-      "type": "수입",
+      "type": "지출",
       "category": "교통비",
       "price": 15000,
       "memo": "점심 식사",
@@ -26,6 +26,75 @@
       "price": 1234134,
       "memo": "점심 식사",
       "id": "23"
+    },
+    {
+      "userId": {
+        "date": "2025-04-19",
+        "type": "지출",
+        "price": 1234,
+        "category": "용돈",
+        "memo": "1234"
+      },
+      "id": "n6ENMyI"
+    },
+    {
+      "date": "2025-04-18",
+      "type": "지출",
+      "category": "이자",
+      "price": 1234,
+      "memo": "1234",
+      "id": "rT5LLz5"
+    },
+    {
+      "date": "2025-04-26",
+      "type": "지출",
+      "category": "용돈",
+      "price": 324,
+      "memo": "123",
+      "id": "jY5tp1F"
+    },
+    {
+      "userId": "1",
+      "date": "2025-04-17",
+      "type": "지출",
+      "category": "용돈",
+      "price": 1234,
+      "memo": "1234",
+      "id": "pU00F6T"
+    },
+    {
+      "userId": "1",
+      "date": "2025-04-07",
+      "type": "수입",
+      "category": "이자",
+      "price": 134,
+      "memo": "1234",
+      "id": "VB5Us_-"
+    },
+    {
+      "date": "2025-04-07",
+      "type": "지출",
+      "category": "교통비",
+      "price": 20000,
+      "memo": "1234",
+      "id": "BWTHNPm"
+    },
+    {
+      "date": "2025-04-07",
+      "type": "수입",
+      "category": "용돈",
+      "price": 1234,
+      "memo": "1234",
+      "id": "Dw51Ejw"
+    },
+    {
+      "userId": "1",
+      "date": "2025-04-07",
+      "type": "수입",
+      "category": "용돈",
+      "price": 1234,
+      "memo": "1234",
+      "id": "-EYAKpu"
     }
   ],
   "category": [

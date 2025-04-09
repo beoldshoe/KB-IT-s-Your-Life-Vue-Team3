@@ -88,14 +88,13 @@ export const useFinancialStore = defineStore('financial', {
           memo,
         };
 
-        // postTransaction 함수 호출
         const data = await api.postTransaction('', budget);
-
-        // 데이터가 정상적으로 전달되면 처리
-        console.log(data); // 응답 받은 데이터 출력
-        // 필요에 따라, 응답 데이터를 상태에 저장하거나 추가 작업을 할 수 있습니다.
+        alert('추가 완료되었습니다!');
+        console.log(data);
+        window.location.reload();
       } catch (e) {
         console.error('[ERROR] Failed to post transaction', e);
+        alert('추가 실패하였습니다!');
       }
     },
 
@@ -106,7 +105,7 @@ export const useFinancialStore = defineStore('financial', {
 
         console.log(data);
         alert('삭제 완료되었습니다!');
-        window.location.reload(); // ✅ 또는 await store.fetchTransactions();
+        window.location.reload();
       } catch (e) {
         console.error('[ERROR] Failed to post transaction', e);
         alert('삭제 실패하였습니다!');
