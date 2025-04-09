@@ -1,15 +1,15 @@
 <template>
-  <div class="item_list">
+  <div class="item_list m-2 p-2">
     <!-- 헤더 -->
     <div class="header">
       <div class="date_info">
-        <span class="day">날짜</span>
-        <span class="date">년도/월</span>
+        <span class="day">{{ day }}</span>
+        <span class="date">{{ year }} / {{ month }}</span>
       </div>
       <div class="spacer"></div>
       <div class="amount_info">
-        <span class="income">총수입</span>
-        <span class="expense">총지출</span>
+        <span class="income">{{ totalIncome.toLocaleString() }}원</span>
+        <span class="expense">{{ totalExpense.toLocaleString() }}원</span>
       </div>
     </div>
     <hr />
@@ -23,7 +23,12 @@
 import Item from './Item.vue';
 const props = defineProps({
   items: { type: Array, required: true },
+  date: { type: String, required: true },
+  totalIncome: { type: Number, required: true },
+  totalExpense: { type: Number, required: true },
 });
+//console.log(props.date);
+const [year, month, day] = props.date.split('-');
 </script>
 
 <style>
@@ -32,6 +37,7 @@ const props = defineProps({
   flex-direction: column;
   width: 100%;
   font-family: sans-serif;
+  background-color: white;
 }
 
 .header {
@@ -65,9 +71,12 @@ const props = defineProps({
   color: #e74c3c;
 }
 
+.date {
+  font-size: 0.8rem;
+}
 hr {
   border: none;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #424242;
   margin: 0;
 }
 </style>
