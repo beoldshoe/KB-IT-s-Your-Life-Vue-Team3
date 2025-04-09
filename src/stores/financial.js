@@ -153,7 +153,7 @@ export const useFinancialStore = defineStore('financial', {
     async login(email, password) {
       console.log('로그인 요청 →', { email, password });
 
-      const data = await getUser('', { email, password });
+      const data = await api.getUser('', { email, password });
 
       console.log('로그인 응답 ←', data);
 
@@ -185,7 +185,7 @@ export const useFinancialStore = defineStore('financial', {
         newEmail,
       });
 
-      const updated = await putUser(`${this.currentUser.id}`, {
+      const updated = await api.putUser(`${this.currentUser.id}`, {
         ...this.currentUser,
         email: newEmail,
       });
@@ -210,7 +210,7 @@ export const useFinancialStore = defineStore('financial', {
         newPassword,
       });
 
-      const updated = await putUser(`${this.currentUser.id}`, {
+      const updated = await api.putUser(`${this.currentUser.id}`, {
         ...this.currentUser,
         password: newPassword,
       });
