@@ -93,22 +93,20 @@ export const useFinancialStore = defineStore('financial', {
 
     async removeTrans(id) {
       try {
-        // id를 포함한 URL 구성
         const url = `/${id}`;
-
-        // postTransaction 함수 호출
         const data = await api.removeTransaction(url, '');
 
-        // 데이터가 정상적으로 전달되면 처리
         console.log(data);
+        alert('삭제 완료되었습니다!');
+        window.location.reload(); // ✅ 또는 await store.fetchTransactions();
       } catch (e) {
         console.error('[ERROR] Failed to post transaction', e);
+        alert('삭제 실패하였습니다!');
       }
     },
 
     async editTrans(id, userId, date, type, category, price, memo) {
       try {
-        // id를 포함한 URL 구성
         const url = `/${id}`;
         const budget = {
           userId,
@@ -119,13 +117,14 @@ export const useFinancialStore = defineStore('financial', {
           memo,
         };
 
-        // postTransaction 함수 호출
         const data = await api.putTransaction(url, budget);
 
-        // 데이터가 정상적으로 전달되면 처리
         console.log(data);
+        alert('수정 완료되었습니다!');
+        window.location.reload(); // ✅ 또는 await store.fetchTransactions();
       } catch (e) {
         console.error('[ERROR] Failed to post transaction', e);
+        alert('수정 실패하였습니다.');
       }
     },
 
