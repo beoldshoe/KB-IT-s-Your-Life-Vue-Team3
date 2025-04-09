@@ -8,7 +8,7 @@
   </div>
 </template>
 <script setup>
-import { useFinancialStore } from '@/stores/financial';
+import { useFinancialStore } from '@/stores/financial.js';
 const chooseDateStore = useFinancialStore();
 </script>
 
