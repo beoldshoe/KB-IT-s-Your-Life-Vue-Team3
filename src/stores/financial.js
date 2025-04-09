@@ -1,6 +1,7 @@
 // /src/stores/financialStore.js
 import { defineStore } from 'pinia';
 import * as api from '@/api/transaction.js'; // getCategory 호출을 위해 api 모듈 임포트
+import { useCategoryStore } from '@/stores/financial.js';
 
 export const useFinancialStore = defineStore('financial', {
   state: () => ({
@@ -11,6 +12,8 @@ export const useFinancialStore = defineStore('financial', {
     budgetList: [],
     currentUser: null,
     transactionList: [],
+    year: 2025,
+    months: 4,
   }),
 
   getters: {
@@ -50,6 +53,9 @@ export const useFinancialStore = defineStore('financial', {
     // 특정 일자 가계부
     dayTransactions: (state) => (date) => {
       return state.transactionList.filter((item) => item.date === date);
+    },
+    currentDate(cal) {
+      return `${cal.year}-${cal.months}`;
     },
   },
 
@@ -130,8 +136,9 @@ export const useFinancialStore = defineStore('financial', {
 
     async startCategories() {
       try {
-        const res = await axios.get('http://localhost:3000/category');
-        this.categories = res.data;
+        // const res = await axios.get('http://localhost:3000/category');
+        const res = await api.getCategory('');
+        this.categories = res;
         console.log('categories불러오기', this.categories);
       } catch (err) {
         console.error('카테고리 가져오기 실패:', err);
@@ -250,6 +257,25 @@ export const useFinancialStore = defineStore('financial', {
       });
       console.log('api 응답:', res);
       this.transactionList = res || [];
+    },
+
+    beforeButton() {
+      if (this.months === 1) {
+        this.months = 12;
+        this.year -= 1;
+      } else {
+        this.months -= 1;
+      }
+      console.log('test코드, beforButton이 눌렸습니다');
+    },
+    nextButton() {
+      if (this.months === 12) {
+        this.months = 1;
+        this.year += 1;
+      } else {
+        this.months += 1;
+      }
+      console.log('test코드, nextButton이 눌렸습니다');
     },
 
     // async fetchTrans() {
