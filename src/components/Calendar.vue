@@ -1,5 +1,6 @@
 <template>
-    <div class="p-4">
+    <div class="calendar-wrapper">
+      <div class="calendar-container">
         <div class="calendar-total-data">
   <div class="total">
     <div class="label">수입</div>
@@ -11,10 +12,14 @@
   </div>
   <div class="total">
     <div class="label">합계</div>
-    <div class="total-result">
+    <div
+    class="total-result"
+    :class="(store.totalIncome - store.totalSpend) >= 0 ? 'text-income' : 'text-spending'"
+  >
       {{ (store.totalIncome - store.totalSpend).toLocaleString() }}원
     </div>
   </div>
+</div>
 </div>
         <table class="calendar-header">
             <tbody >
@@ -26,11 +31,18 @@
         
                     <div v-if="date">
                         {{ date.day }}
-                        <div v-for="entry in getBudgetByDay(date.day)" :key="entry.id" class="text-xs">
-                            <span :class="['entry-price',entry.type === '지출' ? 'text-spending': 'text-income']">
-                                {{ entry.price.toLocaleString() }}원
+                        <div class="entry-group">
+                          <div v-if="getBudgetSumByDay(date.day).spend > 0">
+                            <span class="entry-price text-spending">
+                                {{ getBudgetSumByDay(date.day).spend.toLocaleString() }}
                             </span>
-                        </div>
+                          </div>
+                          <div v-if="getBudgetSumByDay(date.day).income > 0">
+                            <span class="entry-price text-income">
+                              {{ getBudgetSumByDay(date.day).income.toLocaleString() }}
+                            </span>
+                          </div>
+                      </div>
                     </div>
 
                     </td>
@@ -41,14 +53,14 @@
 </template>
   
   <script setup>
-  import { useHanaStore } from '@/stores/hana';
+ import { useFinancialStore } from '@/stores/financial';
   
   const props = defineProps({
     year: String,
     month: String,
   });
   
-  const store = useHanaStore();
+  const store = useFinancialStore();
   
 const daysInMonth = new Date(props.year, parseInt(props.month), 0).getDate();
 const firstDay = new Date(props.year, parseInt(props.month) - 1, 1).getDay();
@@ -71,18 +83,40 @@ if (currentWeek.length) {
   const getBudgetByDay = (day) => {
     return store.getBudgetByDate(props.year, props.month, String(day).padStart(2, '0'));
   };
+  const getBudgetSumByDay = (day) => {
+    const dayEntry = getBudgetByDay(day);
+    let income = 0;
+    let spend = 0;
 
+    dayEntry.forEach((entry)=> {
+      if(entry.type === '수입'){
+        income += entry.price;
+      }else if (entry.type === '지출'){
+        spend += entry.price;
+      }
+    });
+    return {
+      income,
+      spend,
+    }
+  }
   </script>
   
   <style scoped>
-.p-4{
-    background-color: #E7F1FE;
+.calendar-wrapper{
+  padding: 0; 
+  margin: 0;
+  background-color: #E7F1FE;
+  margin-top: 150px; 
+}
+.calendar-container {
+  padding-top: 80px; 
 }
 .calendar-total-data {
   display: flex;
   justify-content: center;
   gap: 250px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   text-align: center;
   background-color: white;
 }
@@ -90,6 +124,8 @@ if (currentWeek.length) {
 .total {
   display: flex;
   flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
 .label {
@@ -98,34 +134,46 @@ if (currentWeek.length) {
 }
 
 .text-spending{
-    font-size: 15px;
+    font-size: 18px;
     text-align: center;
     color: #FD583B;
     font-weight: 600;
 }
 .text-income{
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     text-align: center;
     color: #48A0E9;
 }
 
 .calendar-header{
+    border-collapse: separate;
+    border-spacing: 35px 10px;    
     width: 100%;
     text-align: center;
 }
-.calendar-cell{
-    width: 14.28%;
-    min-height: 100px;
-    height: 120px;
-    vertical-align: top;
-    padding: 4px;
-    font-size: 14px;
-    text-align: left;
-    color: black;
+.calendar-cell {
+  border-top: 5px solid white;
+  width: 14.28%;
+  min-height: 100px;
+  height: 100px;
+  vertical-align: top;
+  padding: 4px;
+  font-size: 14px;
+  text-align: left;
+  background-color: #E7F1FE;
+  color: black;
+  overflow: hidden;
+  
 }
+
+.entry-group {
+  margin-top: 40px; 
+  height: 40px; 
+}
+
 .entry-price{
-    font-size: 11px;
+    font-size: 15px;
     display:block;
 }
 </style>

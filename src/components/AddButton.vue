@@ -1,6 +1,6 @@
 <template>
   <button class="add-button" @click="handleClick">
-    <span class="icon">+</span>
+    <img src="@/assets/add-button.png" alt="Add" class="add-icon" />
   </button>
 </template>
 
@@ -17,27 +17,20 @@ const handleClick = () => {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #007bff;
-  color: white;
+  background: none;
   border: none;
-  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+  z-index: 1000; 
+}
+
+.add-icon {
   width: 60px;
   height: 60px;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+  object-fit: contain;
 }
 
 .add-button:hover {
-  background-color: #0056b3;
   transform: scale(1.1);
-}
-
-.icon {
-  font-weight: bold;
 }
 </style>

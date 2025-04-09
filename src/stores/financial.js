@@ -1,6 +1,7 @@
 // /src/stores/financialStore.js
 import { defineStore } from 'pinia';
 import * as api from '@/api/transaction.js'; // getCategory 호출을 위해 api 모듈 임포트
+import { getTransaction } from '@/api/transaction';  //추가
 
 export const useFinancialStore = defineStore('financial', {
   state: () => ({

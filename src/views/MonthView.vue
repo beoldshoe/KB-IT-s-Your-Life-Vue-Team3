@@ -1,16 +1,19 @@
 <template>
-  <div>
-    <h1>월별 가계부 페이지</h1>
-    <Calendar :year="year" :month="month" />
+   <div>
+   
+      <Calendar :year="year" :month="month" />
+      <AddButton/>
   </div>
 </template>
 
 <script setup>
 import Calendar from '@/components/Calendar.vue';
 import { ref, onMounted, watch } from 'vue';
-import { useHanaStore } from '@/stores/hana';
+import { useFinancialStore } from '@/stores/financial.js';
+//import TopNavBar from '@/components/TopNavBar.vue';
+import AddButton from '@/components/AddButton.vue';
 
-const store = useHanaStore();
+const store = useFinancialStore();
 
 //현재 날짜를 기반으로 (추후 변경)
 const today = new Date();
