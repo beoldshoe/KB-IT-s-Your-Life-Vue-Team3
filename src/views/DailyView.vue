@@ -1,6 +1,6 @@
 <template>
-  <!-- <TopNavBar /> -->
-
+  <TopNavBar />
+  <ChooseDate />
   <div class="daily-wrapper">
     <!-- <h2>DailyView</h2> -->
     <div v-for="date in dateRange" :key="date">
@@ -12,6 +12,17 @@
         :totalExpense="store.dayTotalExpense(date)"
       />
     </div>
+    <div class="pagination">
+      <button
+        v-for="page in totalPages"
+        :key="page"
+        @click="currentPage = page"
+        :class="{ active: page === currentPage }"
+      >
+        {{ page }}
+      </button>
+    </div>
+
     <AddButton />
   </div>
 </template>
@@ -20,31 +31,41 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import AmounList from '@/components/AmounList.vue';
 import AddButton from '@/components/AddButton.vue';
-// import TopNavBar from '@/components/TopNavBar.vue';
+import TopNavBar from '@/components/TopNavBar.vue';
+import ChooseDate from '@/components/ChooseDate.vue';
 import { useFinancialStore } from '@/stores/financial.js';
 
 const store = useFinancialStore();
 
 const userId = ref(1);
 //const userId = ref(store.currentUser.id);
-const date = ref('2025-04');
-// const date = computed({
-//   get: () => store.date,
-//   set: (val) => {
-//     store.date = val;
-//   },
-// });
+const date = computed(() => {
+  return `${store.year}-${String(store.months).padStart(2, '0')}`;
+});
+
+const currentPage = ref(1);
 
 const startDate = ref('');
 const endDate = ref('');
 
 const dateRange = computed(() => getDateRange(startDate.value, endDate.value));
+const totalPages = computed(() => {
+  return Math.max(1, Math.ceil(store.totalTransactionCount / 10));
+});
 
 watch(
-  () => store.selectedCategory,
-  async (newVal) => {
-    if (newVal === '') {
+  [() => store.selectedCategory, currentPage, date],
+  async ([newCategory, newPage, newDate]) => {
+    setDate(); // 먼저 날짜 설정
+
+    if (newCategory === '') {
       await store.fetchTransactions(
+        userId.value,
+        startDate.value,
+        endDate.value,
+        newPage
+      );
+      await store.fetchAllTransactions(
         userId.value,
         startDate.value,
         endDate.value
@@ -54,7 +75,14 @@ watch(
         userId.value,
         startDate.value,
         endDate.value,
-        store.selectedCategory
+        newCategory,
+        newPage
+      );
+      await store.fetchAllCategoryTransactions(
+        userId.value,
+        startDate.value,
+        endDate.value,
+        newCategory
       );
     }
   }
@@ -62,7 +90,17 @@ watch(
 
 onMounted(async () => {
   setDate();
-  await store.fetchTransactions(userId.value, startDate.value, endDate.value);
+  await store.fetchTransactions(
+    userId.value,
+    startDate.value,
+    endDate.value,
+    currentPage
+  );
+  await store.fetchAllTransactions(
+    userId.value,
+    startDate.value,
+    endDate.value
+  );
 });
 
 const setDate = () => {
@@ -98,5 +136,30 @@ const getDateRange = (start, end) => {
 .daily-wrapper {
   background-color: #e7f1fe;
   padding: 16px;
+}
+.pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.pagination button {
+  padding: 4px 10px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination button.active {
+  background-color: #3498db;
+  color: white;
+  font-weight: bold;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 </style>

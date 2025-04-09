@@ -7,7 +7,7 @@ const BASE_USER = '/api/user';
 export const getTransaction = async (target, params) => {
   try {
     console.log('[GET]', BASE_TRANSACTION + target, params);
-    const { data } = await axios.get(BASE_TRANSACTION + target, { params });
+    const data = await axios.get(BASE_TRANSACTION + target, { params });
     return data;
   } catch (e) {
     console.log('[ERROR]', e);
