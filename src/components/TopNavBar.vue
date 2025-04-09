@@ -48,14 +48,14 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
 import { onMounted, ref, computed } from 'vue';
-import { useCategoryStore } from '@/stores/financial.js';
+import { useFinancialStore } from '@/stores/financial.js';
 
 const router = useRouter();
 const route = useRoute();
 const current = ref('');
 
 const currentTab = computed(() => current.value);
-const categoryStore = useCategoryStore();
+const categoryStore = useFinancialStore();
 
 const daily = () => {
   current.value = 'daily';
@@ -71,6 +71,9 @@ const profile = () => {
 };
 onMounted(() => {
   categoryStore.startCategories();
+  if (route.path === '/daily') current.value = 'daily';
+  else if (route.path === '/month') current.value = 'months';
+  else if (route.path === '/user') current.value = 'profile';
 });
 
 const categoryChanged = () => {
