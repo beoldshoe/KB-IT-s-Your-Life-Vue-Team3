@@ -40,6 +40,7 @@ const typeClass = (type) => {
   padding: 12px 0;
   width: 100%;
   cursor: pointer;
+  background-color: transparent;
   transition: background-color 0.2s ease;
 }
 

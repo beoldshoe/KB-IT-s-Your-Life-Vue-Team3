@@ -3,26 +3,29 @@
   <ChooseDate />
   <div class="daily-wrapper">
     <!-- <h2>DailyView</h2> -->
-    <div v-for="date in dateRange" :key="date">
-      <AmounList
-        v-if="store.dayTransactions(date).length > 0"
-        :date="date"
-        :items="store.dayTransactions(date)"
-        :totalIncome="store.dayTotalIncome(date)"
-        :totalExpense="store.dayTotalExpense(date)"
-      />
+    <div v-if="store.transactionList.length > 0" class="list">
+      <div v-for="date in dateRange" :key="date">
+        <AmounList
+          v-if="store.dayTransactions(date).length > 0"
+          :date="date"
+          :items="store.dayTransactions(date)"
+          :totalIncome="store.dayTotalIncome(date)"
+          :totalExpense="store.dayTotalExpense(date)"
+        />
+      </div>
+      <div class="pagination">
+        <button
+          v-for="page in totalPages"
+          :key="page"
+          @click="currentPage = page"
+          :class="{ active: page === currentPage }"
+        >
+          {{ page }}
+        </button>
+      </div>
     </div>
-    <div class="pagination">
-      <button
-        v-for="page in totalPages"
-        :key="page"
-        @click="currentPage = page"
-        :class="{ active: page === currentPage }"
-      >
-        {{ page }}
-      </button>
-    </div>
-
+    <div v-else class="no-data">거래 내역을 추가해주세요!</div>
+    <LogoutButton />
     <AddButton />
   </div>
 </template>
@@ -34,11 +37,11 @@ import AddButton from '@/components/AddButton.vue';
 import TopNavBar from '@/components/TopNavBar.vue';
 import ChooseDate from '@/components/ChooseDate.vue';
 import { useFinancialStore } from '@/stores/financial.js';
+import LogoutButton from '@/components/LogoutButton.vue';
 
 const store = useFinancialStore();
 
-const userId = ref(1);
-//const userId = ref(store.currentUser.id);
+const userId = ref(store.currentUser.id);
 const date = computed(() => {
   return `${store.year}-${String(store.months).padStart(2, '0')}`;
 });
@@ -133,8 +136,11 @@ const getDateRange = (start, end) => {
 </script>
 
 <style>
+.list {
+  background-color: transparent;
+}
 .daily-wrapper {
-  background-color: #e7f1fe;
+  background-color: transparent;
   padding: 16px;
 }
 .pagination {
@@ -161,5 +167,11 @@ const getDateRange = (start, end) => {
 .pagination button:disabled {
   opacity: 0.5;
   cursor: default;
+}
+.no-data {
+  text-align: center;
+  font-size: 18px;
+  color: #777;
+  margin-top: 40px;
 }
 </style>
