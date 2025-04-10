@@ -33,6 +33,7 @@
         @change="categoryChanged"
       >
         <option disabled value="" select hidden>목록 선택</option>
+        <option value="categoryall">전체</option>
         <option
           v-for="category in categoryStore.categories"
           :key="category.id"
