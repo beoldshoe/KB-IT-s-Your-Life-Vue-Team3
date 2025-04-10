@@ -95,6 +95,42 @@
       "price": 1234,
       "memo": "1234",
       "id": "-EYAKpu"
+    },
+    {
+      "userId": "1",
+      "date": "2024-12-10",
+      "type": "지출",
+      "category": "식비",
+      "price": 20000,
+      "memo": "떡볶이",
+      "id": "3aDCcCb"
+    },
+    {
+      "userId": "1",
+      "date": "2024-12-05",
+      "type": "수입",
+      "category": "월급",
+      "price": 20000000,
+      "memo": "월급",
+      "id": "oAQ6ryE"
+    },
+    {
+      "userId": "1",
+      "date": "2025-03-11",
+      "type": "지출",
+      "category": "생활용품",
+      "price": 200000,
+      "memo": "욕실용품",
+      "id": "2ptmrNe"
+    },
+    {
+      "userId": "1",
+      "date": "2025-03-20",
+      "type": "수입",
+      "category": "용돈",
+      "price": 20000000,
+      "memo": "용돈",
+      "id": "Mic4hU8"
     }
   ],
   "category": [
