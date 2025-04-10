@@ -1,10 +1,10 @@
 <template>
   <div class="item_list m-2 p-2">
     <!-- 헤더 -->
-    <div class="header">
+    <div class="list_header">
       <div class="date_info">
-        <span class="day">{{ day }}</span>
-        <span class="amount_date">{{ year }} / {{ month }}</span>
+        <span class="day">{{ day }}일</span>
+        <!-- <span class="amount_date">{{ year }} / {{ month }}</span> -->
       </div>
       <div class="spacer"></div>
       <div class="amount_info">
@@ -41,7 +41,7 @@ const [year, month, day] = props.date.split('-');
   border-radius: 3%;
 }
 
-.header {
+.list_header {
   display: grid;
   grid-template-columns: 2fr 1fr 2fr;
   align-items: center;
@@ -78,6 +78,6 @@ const [year, month, day] = props.date.split('-');
 hr {
   border: none;
   border-top: 1px solid #424242;
-  margin: 0;
+  margin-top: 0;
 }
 </style>
