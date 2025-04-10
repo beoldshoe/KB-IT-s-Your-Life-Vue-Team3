@@ -61,7 +61,7 @@ watch(
   async ([newCategory, newPage, newDate]) => {
     setDate(); // 먼저 날짜 설정
 
-    if (newCategory === '') {
+    if (newCategory === '' || newCategory === 'categoryAll') {
       await store.fetchTransactions(
         userId.value,
         startDate.value,
