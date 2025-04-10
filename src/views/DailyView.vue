@@ -3,7 +3,7 @@
   <ChooseDate />
   <div class="daily-wrapper">
     <!-- <h2>DailyView</h2> -->
-    <div v-if="store.transactionList.length > 0" class="list">
+    <div v-if="store.transactionList.length > 0">
       <div v-for="date in dateRange" :key="date">
         <AmounList
           v-if="store.dayTransactions(date).length > 0"
@@ -136,11 +136,7 @@ const getDateRange = (start, end) => {
 </script>
 
 <style>
-.list {
-  background-color: transparent;
-}
 .daily-wrapper {
-  background-color: transparent;
   padding: 16px;
 }
 .pagination {

@@ -1,4 +1,6 @@
 <template>
+  <TopNavBar />
+  <LogoutButton />
   <div class="user-container">
     <div class="user-box">
       <h2>{{ edit_title }}</h2>
@@ -49,9 +51,12 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useFinancialStore } from '@/stores/financial';
+import TopNavBar from '@/components/TopNavBar.vue';
+import LogoutButton from '@/components/LogoutButton.vue';
 
 export default {
   name: 'UserView',
+  components: { TopNavBar, LogoutButton },
   setup() {
     const emailLabel = ref('이메일');
     const passwordLabel = ref('비밀번호');
