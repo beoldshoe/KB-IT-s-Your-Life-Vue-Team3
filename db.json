@@ -119,7 +119,7 @@
       "date": "2025-03-11",
       "type": "지출",
       "category": "생활용품",
-      "price": 200000,
+      "price": 12341234,
       "memo": "욕실용품",
       "id": "2ptmrNe"
     },
@@ -131,6 +131,15 @@
       "price": 20000000,
       "memo": "용돈",
       "id": "Mic4hU8"
+    },
+    {
+      "userId": "1",
+      "date": "2025-04-01",
+      "type": "수입",
+      "category": "생활용품",
+      "price": 20000,
+      "memo": "욕실용품",
+      "id": "V8zqPXN"
     }
   ],
   "category": [
@@ -168,7 +177,7 @@
       "id": "1",
       "name": "김OO",
       "email": "abc123@example.com",
-      "password": "1234",
+      "password": "1234567",
       "image": ""
     },
     {

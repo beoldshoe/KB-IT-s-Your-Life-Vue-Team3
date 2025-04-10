@@ -52,6 +52,7 @@
                 placeholder="금액을 입력하세요"
               />
             </div>
+
             <div class="modal-content">
               <label for="category" class="form-label">카테고리</label>
               <select
@@ -132,27 +133,27 @@ const closeModal = () => {
 };
 
 const confirmAction = async () => {
-  await store.postTrans(
-    formData.value.userId,
-    formData.value.date,
-    formData.value.type,
-    formData.value.category,
-    formData.value.price,
-    formData.value.memo
-  );
+  const { userId, date, type, category, price, memo } = formData.value;
+
+  if (!userId || !date || !type || !category || !price || memo.trim() === '') {
+    alert('모든 정보를 입력해주세요!');
+    return;
+  }
+
+  await store.postTrans(userId, date, type, category, price, memo);
   closeModal();
 };
 
 const editItem = async () => {
-  await store.editTrans(
-    props.itemData.id,
-    formData.value.userId,
-    formData.value.date,
-    formData.value.type,
-    formData.value.category,
-    formData.value.price,
-    formData.value.memo
-  );
+  const { id } = props.itemData;
+  const { userId, date, type, category, price, memo } = formData.value;
+
+  if (!userId || !date || !type || !category || !price || memo.trim() === '') {
+    alert('모든 정보를 입력해주세요!');
+    return;
+  }
+
+  await store.editTrans(id, userId, date, type, category, price, memo);
   closeModal();
 };
 
