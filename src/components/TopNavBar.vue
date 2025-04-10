@@ -33,7 +33,6 @@
         @change="categoryChanged"
       >
         <option disabled value="" select hidden>목록 선택</option>
-        <option value="categoryAll">전체</option>
         <option
           v-for="category in categoryStore.categories"
           :key="category.id"
@@ -78,13 +77,7 @@ onMounted(() => {
 });
 
 const categoryChanged = () => {
-  if (categoryStore.selectedCategory === 'categoryAll') {
-    categoryStore.selectedCategory = categoryStore.categories.map(
-      (all) => all.name
-    ); //전체 카테고리 선택
-  } else {
-    console.log('선택한 카테고리:', categoryStore.selectedCategory);
-  }
+  console.log('선택한 카테고리:', categoryStore.selectedCategory);
 };
 </script>
 <style scoped>
