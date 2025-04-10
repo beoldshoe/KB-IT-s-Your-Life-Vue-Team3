@@ -1,17 +1,17 @@
 <template>
   <div class="calendar-wrapper">
     <div class="calendar-container">
-      <div class="calendar-total-data">
+      <div class="calendar-total-data" >
         <div class="total">
           <div class="label">수입</div>
           <div class="text-income">
-            {{ store.totalIncome.toLocaleString() }}원
+            {{ getMonthlySummary().income.toLocaleString() }}원
           </div>
         </div>
         <div class="total">
           <div class="label">지출</div>
           <div class="text-spending">
-            {{ store.totalSpend.toLocaleString() }}원
+            {{ getMonthlySummary().spend.toLocaleString() }}원
           </div>
         </div>
         <div class="total">
@@ -19,12 +19,13 @@
           <div
             class="total-result"
             :class="
-              store.totalIncome - store.totalSpend >= 0
+                getMonthlySummary().income - getMonthlySummary().spend >= 0
                 ? 'text-income'
                 : 'text-spending'
             "
           >
-            {{ (store.totalIncome - store.totalSpend).toLocaleString() }}원
+            {{   (getMonthlySummary().income - getMonthlySummary().spend).toLocaleString()
+      }}원
           </div>
         </div>
       </div>
@@ -61,10 +62,10 @@
 
 <script setup>
 import { useFinancialStore } from '@/stores/financial';
-
 const props = defineProps({
-  year: String,
-  month: String,
+  year: Number,
+  month: Number,
+  filteredBudget: Array
 });
 
 const store = useFinancialStore();
@@ -96,6 +97,7 @@ const getBudgetByDay = (day) => {
   let resultList;
 
   if (store.selectedCategory && store.selectedCategory !== '전체') {
+    console.log("호출됨")
     resultList = list.filter(
       (item) => item.category === store.selectedCategory
     );
@@ -105,6 +107,7 @@ const getBudgetByDay = (day) => {
   return resultList;
 };
 
+//해당 날짜 수입, 지출 계산
 const getBudgetSumByDay = (day) => {
   const dayEntry = getBudgetByDay(day);
   let income = 0;
@@ -117,11 +120,24 @@ const getBudgetSumByDay = (day) => {
       spend += entry.price;
     }
   });
-  console.log(income, spend);
   return {
     income,
     spend,
   };
+};
+const getMonthlySummary = () => {
+  let income = 0;
+  let spend = 0;
+
+  props.filteredBudget.forEach((entry) => {
+    if (entry.type === '수입') {
+      income += entry.price;
+    } else if (entry.type === '지출') {
+      spend += entry.price;
+    }
+  });
+
+  return { income, spend };
 };
 </script>
 

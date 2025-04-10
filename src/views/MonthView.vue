@@ -2,7 +2,7 @@
   <TopNavBar></TopNavBar>
   <div>
     <ChooseDate></ChooseDate>
-    <Calendar :year="year" :month="month" />
+    <Calendar :year="year" :month="month" :filteredBudget="filteredBudget" />
     <AddButton />
     <LogoutButton />
   </div>
@@ -38,6 +38,15 @@ const fetchTransactions = async () => {
   const { startDate, endDate } = getStartEndDate();
   await store.fetchBudgets(userId, startDate, endDate);
 };
+
+const filteredBudget = computed(() => {
+  if (store.selectedCategory === '전체') {
+    return store.budgetList;
+  }
+  return store.budgetList.filter(
+    (item) => item.category === store.selectedCategory
+  );
+});
 
 onMounted(fetchTransactions);
 watch([year, month], fetchTransactions);
