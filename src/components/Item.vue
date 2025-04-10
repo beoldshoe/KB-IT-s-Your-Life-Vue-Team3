@@ -1,7 +1,9 @@
 <template>
   <div class="transaction_item" @click="openEditModal">
     <span class="category">{{ item.category }}</span>
-    <span class="content">{{ item.memo }}</span>
+    <span class="content" :class="{ 'empty-memo': !item.memo?.trim() }">
+      {{ item.memo?.trim() ? item.memo : '메모 없음' }}
+    </span>
     <span class="price" :class="typeClass(item.type)">
       {{ item.price.toLocaleString() }}원
     </span>
@@ -70,5 +72,8 @@ const typeClass = (type) => {
 
 .income {
   color: #3498db;
+}
+.empty-memo {
+  color: #a0a0a0;
 }
 </style>

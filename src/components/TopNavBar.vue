@@ -24,15 +24,15 @@
         프로필
       </button>
     </div>
+
     <div class="category">
-      <!-- 카테고리 부분-->
+      <!-- 카테고리 부분 -->
       <select
         class="categoryDesign"
         v-if="route.path !== '/user'"
         v-model="categoryStore.selectedCategory"
         @change="categoryChanged"
       >
-        <option disabled value="" select hidden>목록 선택</option>
         <option
           v-for="category in categoryStore.categories"
           :key="category.id"
@@ -45,6 +45,7 @@
   </div>
   <hr />
 </template>
+
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
 import { onMounted, ref, computed } from 'vue';
@@ -61,16 +62,25 @@ const daily = () => {
   current.value = 'daily';
   router.push('/daily');
 };
+
 const months = () => {
   current.value = 'months';
   router.push('/month');
 };
+
 const profile = () => {
   current.value = 'profile';
   router.push('/user');
 };
-onMounted(() => {
-  categoryStore.startCategories();
+
+onMounted(async () => {
+  await categoryStore.startCategories();
+
+  // 카테고리 기본값을 첫 번째 항목으로 자동 설정
+  if (!categoryStore.selectedCategory && categoryStore.categories.length > 0) {
+    categoryStore.selectedCategory = categoryStore.categories[0].name;
+  }
+
   if (route.path === '/daily') current.value = 'daily';
   else if (route.path === '/month') current.value = 'months';
   else if (route.path === '/user') current.value = 'profile';
@@ -80,12 +90,14 @@ const categoryChanged = () => {
   console.log('선택한 카테고리:', categoryStore.selectedCategory);
 };
 </script>
+
 <style scoped>
 .header {
   display: flex;
   justify-content: space-between;
   margin-top: 2%;
 }
+
 .baseButton {
   color: #969696;
   margin: 0;
@@ -93,13 +105,16 @@ const categoryChanged = () => {
   border-radius: 10px;
   border: 1px solid white;
 }
+
 .selectButton {
   color: #108cb6;
 }
+
 .tabs {
   gap: 1em;
   display: flex;
 }
+
 .categoryDesign {
   border-radius: 5px;
   border: 1px solid gainsboro;

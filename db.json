@@ -59,7 +59,7 @@
       "type": "지출",
       "category": "용돈",
       "price": 1234,
-      "memo": "1234",
+      "memo": "",
       "id": "pU00F6T"
     },
     {
@@ -140,6 +140,15 @@
       "price": 20000,
       "memo": "욕실용품",
       "id": "V8zqPXN"
+    },
+    {
+      "userId": "1",
+      "date": "2025-04-18",
+      "type": "지출",
+      "category": "월급",
+      "price": 200,
+      "memo": "",
+      "id": "zErhFHh"
     }
   ],
   "category": [
