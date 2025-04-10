@@ -95,11 +95,7 @@ const getBudgetByDay = (day) => {
   );
   let resultList;
 
-  if (Array.isArray(store.selectedCategory)) {
-    return list;
-  }
-
-  if (store.selectedCategory) {
+  if (store.selectedCategory && store.selectedCategory !== '전체') {
     resultList = list.filter(
       (item) => item.category === store.selectedCategory
     );
@@ -121,6 +117,7 @@ const getBudgetSumByDay = (day) => {
       spend += entry.price;
     }
   });
+  console.log(income, spend);
   return {
     income,
     spend,
