@@ -32,7 +32,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
-import AmounList from '@/components/AmounList.vue';
+import AmounList from '@/components/AmountList.vue';
 import AddButton from '@/components/AddButton.vue';
 import TopNavBar from '@/components/TopNavBar.vue';
 import ChooseDate from '@/components/ChooseDate.vue';
@@ -130,7 +130,7 @@ const getDateRange = (start, end) => {
 };
 </script>
 
-<style>
+<style scoped>
 .daily-wrapper {
   padding: 16px;
 }

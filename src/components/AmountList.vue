@@ -31,7 +31,7 @@ const props = defineProps({
 const [year, month, day] = props.date.split('-');
 </script>
 
-<style>
+<style scoped>
 .item_list {
   display: flex;
   flex-direction: column;

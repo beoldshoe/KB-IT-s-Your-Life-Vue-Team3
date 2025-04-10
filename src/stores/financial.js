@@ -192,7 +192,7 @@ export const useFinancialStore = defineStore('financial', {
         newEmail,
       });
 
-      const updated = await api.putUser(`${this.currentUser.id}`, {
+      const updated = await api.putUser(`/${this.currentUser.id}`, {
         ...this.currentUser,
         email: newEmail,
       });
@@ -217,7 +217,7 @@ export const useFinancialStore = defineStore('financial', {
         newPassword,
       });
 
-      const updated = await api.putUser(`${this.currentUser.id}`, {
+      const updated = await api.putUser(`/${this.currentUser.id}`, {
         ...this.currentUser,
         password: newPassword,
       });
