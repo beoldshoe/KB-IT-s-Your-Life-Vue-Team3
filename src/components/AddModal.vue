@@ -133,27 +133,42 @@ const closeModal = () => {
 };
 
 const confirmAction = async () => {
-  const { userId, date, type, category, price, memo } = formData.value;
+  const { userId, date, type, category, price } = formData.value;
 
-  if (!userId || !date || !type || !category || !price || memo.trim() === '') {
+  if (!userId || !date || !type || !category || !price) {
     alert('모든 정보를 입력해주세요!');
     return;
   }
 
-  await store.postTrans(userId, date, type, category, price, memo);
+  await store.postTrans(
+    userId,
+    date,
+    type,
+    category,
+    price,
+    formData.value.memo
+  );
   closeModal();
 };
 
 const editItem = async () => {
   const { id } = props.itemData;
-  const { userId, date, type, category, price, memo } = formData.value;
+  const { userId, date, type, category, price } = formData.value;
 
-  if (!userId || !date || !type || !category || !price || memo.trim() === '') {
+  if (!userId || !date || !type || !category || !price) {
     alert('모든 정보를 입력해주세요!');
     return;
   }
 
-  await store.editTrans(id, userId, date, type, category, price, memo);
+  await store.editTrans(
+    id,
+    userId,
+    date,
+    type,
+    category,
+    price,
+    formData.value.memo
+  );
   closeModal();
 };
 
