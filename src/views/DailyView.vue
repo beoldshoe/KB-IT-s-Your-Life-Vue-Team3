@@ -107,14 +107,9 @@ onMounted(async () => {
 });
 
 const setDate = () => {
-  const today = new Date();
   const [selYear, selMonth] = date.value.split('-');
 
-  const isCurrentMonth =
-    today.getFullYear() === +selYear && today.getMonth() + 1 === +selMonth;
-  const lastDay = isCurrentMonth
-    ? today.getDate()
-    : new Date(+selYear, +selMonth, 0).getDate();
+  const lastDay = new Date(+selYear, +selMonth, 0).getDate();
 
   startDate.value = `${date.value}-01`;
   endDate.value = `${date.value}-${String(lastDay).padStart(2, '0')}`;
