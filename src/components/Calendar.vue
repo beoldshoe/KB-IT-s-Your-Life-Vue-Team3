@@ -107,7 +107,7 @@ if (currentWeek.length) {
   padding: 0; 
   margin: 0;
   background-color: #E7F1FE;
-  margin-top: 150px; 
+  margin-top: 50px; 
 }
 .calendar-container {
   padding-top: 80px; 
@@ -116,7 +116,7 @@ if (currentWeek.length) {
   display: flex;
   justify-content: center;
   gap: 250px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   text-align: center;
   background-color: white;
 }
@@ -124,7 +124,7 @@ if (currentWeek.length) {
 .total {
   display: flex;
   flex-direction: column;
-  margin: 0;
+  margin-bottom: 0;
   padding: 0;
 }
 
