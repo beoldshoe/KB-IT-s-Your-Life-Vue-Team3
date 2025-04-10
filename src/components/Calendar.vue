@@ -79,10 +79,19 @@ if (currentWeek.length) {
   while (currentWeek.length < 7) currentWeek.push(null); // 마지막 주 빈칸
   calendarRows.push(currentWeek);
 }
-  //해당 날짜 거래 내역 조회
+  //해당 날짜/카테고리 거래 내역 조회
   const getBudgetByDay = (day) => {
-    return store.getBudgetByDate(props.year, props.month, String(day).padStart(2, '0'));
-  };
+  const list = store.getBudgetByDate(props.year, props.month, String(day).padStart(2, '0'));
+  let resultList;
+
+  if (store.selectedCategory) {
+    resultList = list.filter((item) => item.category === store.selectedCategory);
+  } else {
+    resultList = list;
+  }
+  return resultList;
+};
+
   const getBudgetSumByDay = (day) => {
     const dayEntry = getBudgetByDay(day);
     let income = 0;
