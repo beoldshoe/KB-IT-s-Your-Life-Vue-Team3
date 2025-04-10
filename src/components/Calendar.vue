@@ -84,6 +84,10 @@ if (currentWeek.length) {
   const list = store.getBudgetByDate(props.year, props.month, String(day).padStart(2, '0'));
   let resultList;
 
+  if (Array.isArray(store.selectedCategory)) {
+    return list;
+  }
+  
   if (store.selectedCategory) {
     resultList = list.filter((item) => item.category === store.selectedCategory);
   } else {
