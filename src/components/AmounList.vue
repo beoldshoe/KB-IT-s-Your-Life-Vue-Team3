@@ -38,6 +38,7 @@ const [year, month, day] = props.date.split('-');
   width: 100%;
   font-family: sans-serif;
   background-color: white;
+  border-radius: 3%;
 }
 
 .header {
