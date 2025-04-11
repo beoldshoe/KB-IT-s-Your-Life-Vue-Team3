@@ -12,7 +12,7 @@ const router = createRouter({
     {
       path: '/daily',
       name: 'daily',
-      component: () => import('../views/LoginView.vue'),
+      component: () => import('../views/DailyView.vue'),
     },
     {
       path: '/month',
@@ -23,6 +23,11 @@ const router = createRouter({
       path: '/user',
       name: 'user',
       component: () => import('../views/UserView.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue'),
     },
   ],
 });
